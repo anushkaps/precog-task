@@ -1,0 +1,12 @@
+{
+  "modes": [
+    "channel_max",
+    "channel_mean",
+    "topk_mean"
+  ],
+  "steps": 200,
+  "lr": 0.08,
+  "chunk_size": 32,
+  "seed": 0,
+  "nrow": 16
+}

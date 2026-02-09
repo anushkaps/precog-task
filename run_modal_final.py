@@ -96,17 +96,35 @@ def run_notebook(task: str = None):
         volume.commit()
         print("[OK] Volume committed")
     
-    # If task filter is specified, find where that task starts and run all cells up to it
+    # If task filter is specified, find task boundaries
     task_start_idx = None
+    task_end_idx = None
     if task:
         task_lower = task.lower()
+        task_num = None
+        if 'task5' in task_lower or 'task 5' in task_lower:
+            task_num = 5
+        elif 'task6' in task_lower or 'task 6' in task_lower:
+            task_num = 6
+        
+        # Find where the task starts
         for i, cell in enumerate(nb.cells):
             if cell.cell_type != 'code':
                 continue
             source = ''.join(cell.source) if isinstance(cell.source, list) else cell.source
-            # Look for task markers like "Task 1", "TASK1", "[Task1]", etc.
-            if task_lower in source.lower() and any(marker in source.lower() for marker in ['task', '[']):
+            # Look for task markers
+            if task_num and f'task{task_num}' in source.lower():
                 task_start_idx = i
+                # Find where next task starts (or end of notebook)
+                for j in range(i+1, len(nb.cells)):
+                    if nb.cells[j].cell_type != 'code':
+                        continue
+                    next_source = ''.join(nb.cells[j].source) if isinstance(nb.cells[j].source, list) else nb.cells[j].source
+                    if task_num < 6 and f'task{task_num+1}' in next_source.lower():
+                        task_end_idx = j
+                        break
+                if task_end_idx is None:
+                    task_end_idx = len(nb.cells)  # Run to end
                 break
     
     for i, cell in enumerate(nb.cells):
@@ -118,10 +136,18 @@ def run_notebook(task: str = None):
         if not source.strip():
             continue
         
-        # If task filter: only run cells up to and including the task
+        # If task filter specified: run all setup cells, then task-specific cells
         if task and task_start_idx is not None:
-            if i > task_start_idx + 20:  # Run task + ~20 cells after for completion
-                break
+            # Run setup cells (before task) - these will use existing checkpoints
+            if i < task_start_idx:
+                # Run setup but notebook will skip if checkpoints exist
+                pass  # Continue to execute
+            # Run task cells
+            elif i >= task_start_idx and (task_end_idx is None or i < task_end_idx):
+                pass  # Continue to execute
+            else:
+                # After task, skip
+                continue
         elif task and task_start_idx is None:
             # Task not found, skip this cell
             continue
@@ -170,10 +196,34 @@ def run_notebook(task: str = None):
 def main(task: str = None):
     """Run the notebook."""
     print("Starting Modal GPU run...")
-    result = run_notebook.remote(task=task)
+    
+    # If no task specified, run tasks 5 and 6
+    if task is None:
+        tasks_to_run = ["task5", "task6"]
+    elif task.lower() in ["task5", "task 5", "5"]:
+        tasks_to_run = ["task5"]
+    elif task.lower() in ["task6", "task 6", "6"]:
+        tasks_to_run = ["task6"]
+    elif task.lower() in ["task56", "tasks56", "5and6", "5 and 6"]:
+        tasks_to_run = ["task5", "task6"]
+    else:
+        tasks_to_run = [task]
+    
+    all_results = []
+    for t in tasks_to_run:
+        print(f"\n{'='*60}")
+        print(f"Running {t.upper()}")
+        print(f"{'='*60}")
+        result = run_notebook.remote(task=t)
+        all_results.append((t, result))
+        print(f"\n{t.upper()} completed:")
+        print(result)
+    
     print("\n" + "="*60)
-    print("Results:")
+    print("All Results Summary:")
     print("="*60)
-    print(result)
+    for t, result in all_results:
+        print(f"{t}: {result.get('status', 'unknown')} - {result.get('executed', 0)} cells, {result.get('errors', 0)} errors")
+    
     print("\nTo download outputs:")
-    print("  modal volume download lazy-artist-outputs ./outputs")
+    print("  modal volume get lazy-artist-outputs ./outputs")
