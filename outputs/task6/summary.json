@@ -1,0 +1,72 @@
+[
+  {
+    "model": "Baseline (biased)",
+    "layer": "relu1",
+    "mode": "spatial_mean",
+    "top_color_score": 0.9565961360931396,
+    "top_color_feat": 68,
+    "top_digit_score": 0.10285130888223648,
+    "top_digit_feat": 22,
+    "tag": "sae__Baseline (biased)__relu1__spatial_mean__m4"
+  },
+  {
+    "model": "Baseline (biased)",
+    "layer": "relu1",
+    "mode": "per_position",
+    "top_color_score": 0.8725216388702393,
+    "top_color_feat": 107,
+    "top_digit_score": 0.22297222912311554,
+    "top_digit_feat": 34,
+    "tag": "sae__Baseline (biased)__relu1__per_position__m4"
+  },
+  {
+    "model": "Baseline (biased)",
+    "layer": "relu2",
+    "mode": "spatial_mean",
+    "top_color_score": 0.9761688113212585,
+    "top_color_feat": 25,
+    "top_digit_score": 0.32225456833839417,
+    "top_digit_feat": 106,
+    "tag": "sae__Baseline (biased)__relu2__spatial_mean__m4"
+  },
+  {
+    "model": "Baseline (biased)",
+    "layer": "relu2",
+    "mode": "per_position",
+    "top_color_score": 0.9257568717002869,
+    "top_color_feat": 58,
+    "top_digit_score": 0.3284578025341034,
+    "top_digit_feat": 206,
+    "tag": "sae__Baseline (biased)__relu2__per_position__m4"
+  },
+  {
+    "model": "Baseline (biased)",
+    "layer": "relu3",
+    "mode": "spatial_mean",
+    "top_color_score": 0.9582664966583252,
+    "top_color_feat": 489,
+    "top_digit_score": 0.48479682207107544,
+    "top_digit_feat": 247,
+    "tag": "sae__Baseline (biased)__relu3__spatial_mean__m4"
+  },
+  {
+    "model": "Baseline (biased)",
+    "layer": "relu3",
+    "mode": "per_position",
+    "top_color_score": 0.9499754905700684,
+    "top_color_feat": 433,
+    "top_digit_score": 0.35630303621292114,
+    "top_digit_feat": 154,
+    "tag": "sae__Baseline (biased)__relu3__per_position__m4"
+  },
+  {
+    "model": "Baseline (biased)",
+    "layer": "gap",
+    "mode": "vector",
+    "top_color_score": 0.9657498598098755,
+    "top_color_feat": 48,
+    "top_digit_score": 0.4295482933521271,
+    "top_digit_feat": 403,
+    "tag": "sae__Baseline (biased)__gap__spatial_mean__m4"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "source_digit": 7,
+  "target_digit": 3,
+  "conf_goal": 0.9,
+  "eps_max_pixel": 0.05,
+  "coarse_step": 0.005,
+  "refine_iters": 7,
+  "pgd_steps": 120,
+  "restarts": 10,
+  "n_shared_samples": 20,
+  "loader_used": "hard_test_loader",
+  "seed": 0,
+  "models": [
+    "Baseline (biased)",
+    "DANN Twostep",
+    "CF Invar",
+    "Saliency Chroma Masked"
+  ]
+}
