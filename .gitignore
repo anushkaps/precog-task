@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Outputs
+outputs/runs/
+outputs/*.png
+outputs/*.pt
+outputs/*.npz
+outputs/*.csv
+outputs/*.json
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
